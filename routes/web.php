@@ -2,6 +2,7 @@
 
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostController;
 use Inertia\Inertia;
 
 Route::get('/', function () {
@@ -22,3 +23,5 @@ Route::middleware([
         return Inertia::render('Dashboard');
     })->name('dashboard');
 });
+
+Route::get('posts', [PostController::class,'index'])->name('posts.index');
