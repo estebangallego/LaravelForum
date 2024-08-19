@@ -22,4 +22,15 @@ class IndexTest extends TestCase
         
         $response->assertStatus(200);
     }
+
+    public function test_index_posts(): void
+    {
+        $response = $this->get(route("posts.index"));
+
+        $response->assertInertia(fn (Assert $inertia) => $inertia
+            ->has("posts")
+        );
+        
+        
+    }
 }

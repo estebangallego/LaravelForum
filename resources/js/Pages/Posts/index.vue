@@ -1,12 +1,24 @@
-<template>
-    <AppLayout>
-        Hello World
-    </AppLayout>
-
-</template>
-
 <script setup>
     import AppLayout from '@/Layouts/AppLayout.vue';
+    import Container from '@/Components/Container.vue';
+    defineProps(['posts']);
 </script>
 
-    
+<template>
+    <AppLayout title="Post List">
+        <template #header>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                Posts
+            </h2>
+        </template>
+
+        <Container>
+            <ul>
+                <li v-for="post in posts" :key="post.id" class="px-2 py-4">
+                    <span class="font-semibold">{{ post.title }}</span>
+                </li>   
+            </ul>
+        </Container>
+    </AppLayout>
+</template>
+``
