@@ -1,6 +1,7 @@
 <script setup>
     import AppLayout from '@/Layouts/AppLayout.vue';
     import Container from '@/Components/Container.vue';
+    import { Link } from '@inertiajs/vue3';
     defineProps(['posts']);
 </script>
 
@@ -15,7 +16,7 @@
         <Container>
             <ul>
                 <li v-for="post in posts" :key="post.id" class="px-2 py-4">
-                    <span class="font-semibold">{{ post.title }}</span>
+                    <Link :href="post.id"><span class="font-semibold">{{ post.title }}</span></Link>
                 </li>   
             </ul>
         </Container>
