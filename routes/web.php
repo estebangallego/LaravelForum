@@ -3,7 +3,13 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
+use App\Http\Resources\CommentResource;
+use App\Http\Resources\PostResource;
+use App\Http\Resources\UserResource;
 use Inertia\Inertia;
+use App\Models\User;
+use App\Models\Comment;
+use App\Models\Post;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [

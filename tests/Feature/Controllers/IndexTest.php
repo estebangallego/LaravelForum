@@ -31,6 +31,5 @@ class IndexTest extends TestCase
             ->has("posts")
         );
         
-        
     }
 }
