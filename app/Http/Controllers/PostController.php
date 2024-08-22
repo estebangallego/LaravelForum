@@ -12,7 +12,7 @@ class PostController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
+    {   
         return inertia('Posts/Index', [
             'posts' => PostResource::collection(Post::paginate()),
         ]);
