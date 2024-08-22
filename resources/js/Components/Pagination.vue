@@ -1,25 +1,30 @@
 <script setup>
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/20/solid'
 import { Link } from '@inertiajs/vue3'
+import { computed, defineProps } from 'vue';
 
-const props = defineProps(['meta']);
+
+const props = defineProps({
+  meta: Object
+});
+
 
 // Mobile link
-const previousUrl = props.meta.links[0].url;
-const nextUrl = [...props.meta.links].reverse()[0].url;
+const previousUrl = computed(() => props.meta.links[0]);
+const nextUrl = computed(() => [...props.meta.links].reverse()[0]);
 
 </script>
 
 <template>
     <div class="flex items-center justify-between border-t border-gray-200 px-4 py-3 sm:px-6">
       <div class="flex flex-1 justify-between sm:hidden">
-        <Link :href="previousUrl" 
+        <Link :href="previousUrl.url" 
           class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
-          Previous
+          {{ previousUrl.label }}
         </Link>
-        <Link :href="nextUrl" 
+        <Link :href="nextUrl.url" 
           class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
-          Next
+          {{ nextUrl.label }}
         </Link>
       </div>
       <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
