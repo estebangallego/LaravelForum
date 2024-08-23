@@ -1,7 +1,7 @@
 <script setup>
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/20/solid'
 import { Link } from '@inertiajs/vue3'
-import { computed, defineProps } from 'vue';
+import { computed } from 'vue';
 
 
 const props = defineProps({

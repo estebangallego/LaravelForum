@@ -18,6 +18,7 @@
             <ul>
                 <li v-for="post in posts.data" :key="post.id" class="px-2 py-4">
                     <Link :href="post.id"><span class="font-semibold">{{ post.title }}</span></Link>
+                    <p>{{ post.user.name }}</p>
                 </li>   
             </ul>
             <Pagination :meta="posts.meta" />
