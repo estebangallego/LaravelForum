@@ -20,11 +20,7 @@ class IndexTest extends TestCase
     public function test_index_controller(): void
     {
         $response = $this->get(route("posts.index"));
-
-        $response->assertInertia(fn (Assert $page) => $page
-            ->component('Posts/Index', true)
-        );
-        
+        $response->assertComponent('Posts/Index', true);
         $response->assertStatus(200);
     }
 
@@ -32,10 +28,6 @@ class IndexTest extends TestCase
     {
         $posts = Post::factory(3)->create();
         $response = $this->get(route("posts.index"));
-        $response->assertInertia(fn (Assert $inertia) => $inertia
-            // ->hasResource("post", PostResource::make($posts->first()))
-            ->hasPaginateResource("posts", PostResource::collection($posts->reverse()))
-        );
-        
+        $response->assertPaginatedResource("posts", PostResource::collection($posts->reverse()));
     }
 }

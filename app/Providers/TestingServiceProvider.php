@@ -7,6 +7,8 @@ use PHPUnit\Framework\Assert as PHPUnit;
 use Inertia\Testing\AssertableInertia as Assert;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Testing\TestResponse;
+
 
 class TestingServiceProvider extends ServiceProvider
 {
@@ -29,25 +31,35 @@ class TestingServiceProvider extends ServiceProvider
         
         // Check if the posts are passed as a resource
         Assert::macro('hasResource', function (string $key, JsonResource $resource) {
-            $props = $this->toArray()['props'];
             $compiledResource = $resource->response()->getData(true);
-            PHPUnit::assertArrayHasKey($key, $props, "Key \"{$key}\" not passed as a property to Inertia.");
-            PHPUnit::assertEquals($props[$key], $compiledResource, "The value for key \"{$key}\" does not match the expected resource.");
+            PHPUnit::assertArrayHasKey($key, $this->prop());
+            PHPUnit::assertEquals($this->prop($key), $compiledResource);
         
             return $this;
         });
 
         // Check if the posts are passed as a paginated resource
         Assert::macro('hasPaginateResource', function (string $key, ResourceCollection $resource) {
-            $props = $this->toArray()['props'];
             $compiledResource = $resource->response()->getData(true);
-            PHPUnit::assertArrayHasKey($key, $props);
+            PHPUnit::assertArrayHasKey($key, $this->prop());
             foreach (['links', 'data', 'meta'] as $data) {
-                PHPUnit::assertArrayHasKey($data , $props[$key]);
+                PHPUnit::assertArrayHasKey($data , $this->prop($key));
             }
-            PHPUnit::assertEquals($props[$key]['data'], $compiledResource, "The value for key \"{$key}\" does not match the expected resource.");
+            PHPUnit::assertEquals($this->prop($key)['data'], $compiledResource);
       
             return $this;
+        });
+
+        TestResponse::macro('assertPaginatedResource', function (string $key, ResourceCollection $resource) {
+            return $this->assertInertia(fn (Assert $inertia) => $inertia->hasPaginateResource($key, $resource));
+        });
+
+        TestResponse::macro('assertHasResource', function (string $key, JsonResource $resource) {
+            return $this->assertInertia(fn (Assert $inertia) => $inertia->hasResource($key, $resource));
+        });
+
+        TestResponse::macro('assertComponent', function (string $component) {
+            return $this->assertInertia(fn (Assert $inertia) => $inertia->component($component, true));
         });
     }
 }
