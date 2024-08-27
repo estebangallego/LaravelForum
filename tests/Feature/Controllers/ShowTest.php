@@ -17,6 +17,7 @@ class ShowTest extends TestCase
     public function test_show_page(): void
     {
         $post = Post::factory(1)->create();
+        $post->load('user');
         $response = $this->get(route('posts.show', $post->first()));
         $response->assertComponent('Posts/Show', true);
         $response->assertHasResource("post", PostResource::make($post->first()));
