@@ -27,6 +27,7 @@ class IndexTest extends TestCase
     public function test_index_posts(): void
     {
         $posts = Post::factory(3)->create();
+        $posts->load('user');
         $response = $this->get(route("posts.index"));
         $response->assertPaginatedResource("posts", PostResource::collection($posts->reverse()));
     }
