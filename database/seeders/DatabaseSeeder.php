@@ -17,9 +17,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $user = User::factory(10)->create();
-        $post = Post::factory(100)->recycle($user)->create();
-        Comment::factory(100)->recycle($user)->recycle($post)->create();
+        $users = User::factory(10)->create();
+        $post = Post::factory(200)
+            ->has(Comment::factory(15)->recycle($users))
+            ->recycle($users)
+            ->create();
 
         // WARNING: This is just for testing purposes
         if (!User::where('email', 'test@example.com')->exists()) {

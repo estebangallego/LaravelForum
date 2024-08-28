@@ -1,12 +1,11 @@
 <script setup>
     import AppLayout from '@/Layouts/AppLayout.vue';
     import Container from '@/Components/Container.vue';
-    defineProps(['post']);
+    import Pagination from '@/Components/Pagination.vue';
+    import {formatDate} from '@/Utilities/date.js';
+    
+    const props = defineProps(['post', 'comments']);
 
-    const formatDate = (date) => {
-        const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        return new Date(date).toLocaleDateString('en', options);
-    }
 </script>
 
 <template>
@@ -22,6 +21,17 @@
             <article>
                 <pre class="whitespace-pre-wrap font-sans">{{ post.body }}</pre>
             </article>
+            <div class="mt-6">
+                <h3 class="text-lg font-medium text-gray-900">Comments</h3>
+                <ul class="divide-y divide-gray-200 mt-4">
+                    <li v-for="comment in comments.data" :key="comment.id" class="px-2 py-4">
+                        <p class="text-sm">{{ comment.body }}</p>
+                        <p class="text-gray-500 text-sm">{{ formatDate(comment.created_at) }} by {{ comment.user.name }}</p>
+                    </li>
+                </ul>
+                <Pagination :meta="comments.meta" />    
+
+            </div>
         </Container>
 
     </AppLayout>

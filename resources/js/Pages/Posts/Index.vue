@@ -3,12 +3,9 @@
     import Container from '@/Components/Container.vue';
     import { Link } from '@inertiajs/vue3';
     import Pagination from '@/Components/Pagination.vue';
+    import {formatDate} from '@/Utilities/date.js';
     defineProps(['posts']);
 
-    const formatDate = (date) => {
-        const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        return new Date(date).toLocaleDateString('en', options);
-    }
 </script>
 
 <template>
@@ -20,7 +17,7 @@
         </template>
 
         <Container>
-            <ul>
+            <ul class="divide-y divide-gray-200">
                 <li v-for="post in posts.data" :key="post.id" class="px-2 py-4">
                     <Link :href="route('posts.show', post.id)" class="group">
                         <span class="font-semibold group-hover:text-indigo-500">{{ post.title }}</span>

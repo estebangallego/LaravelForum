@@ -50,13 +50,14 @@ class TestingServiceProvider extends ServiceProvider
             return $this;
         });
 
+        TestResponse::macro('assertHasResource', function (string $key, JsonResource $resource) {
+            return $this->assertInertia(fn (Assert $inertia) => $inertia->hasResource($key, $resource));
+        });
+
         TestResponse::macro('assertPaginatedResource', function (string $key, ResourceCollection $resource) {
             return $this->assertInertia(fn (Assert $inertia) => $inertia->hasPaginateResource($key, $resource));
         });
 
-        TestResponse::macro('assertHasResource', function (string $key, JsonResource $resource) {
-            return $this->assertInertia(fn (Assert $inertia) => $inertia->hasResource($key, $resource));
-        });
 
         TestResponse::macro('assertComponent', function (string $component) {
             return $this->assertInertia(fn (Assert $inertia) => $inertia->component($component, true));

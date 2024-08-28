@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Http\Resources\CommentResource;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use PHPUnit\Framework\Assert as PHPUnit;
@@ -9,8 +10,8 @@ use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
-use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Http\Resources\Json\ResourceCollection;
+
+
 
 class IndexTest extends TestCase
 {

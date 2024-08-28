@@ -8,6 +8,8 @@ use Tests\TestCase;
 use Inertia\Testing\AssertableInertia as Assert;
 use App\Models\Post;
 use App\Http\Resources\PostResource;
+use App\Models\Comment;
+use App\Http\Resources\CommentResource;
 
 class ShowTest extends TestCase
 {
@@ -23,4 +25,17 @@ class ShowTest extends TestCase
         $response->assertHasResource("post", PostResource::make($post->first()));
         $response->assertStatus(200);
     }
+
+
+    public function test_passes_comments_to_view(): void
+    {
+        $this->withoutExceptionHandling();
+        $post = Post::factory()->create();
+        $comments = Comment::factory(3)->for($post)->create();
+        $comments->load('user');
+
+        $response = $this->get(route("posts.show", $post->first()));
+        $response->assertPaginatedResource("comments", CommentResource::collection($comments->reverse()));
+    }
+
 }
