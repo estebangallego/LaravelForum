@@ -3,6 +3,7 @@
     import Container from '@/Components/Container.vue';
     import Pagination from '@/Components/Pagination.vue';
     import {formatDate} from '@/Utilities/date.js';
+    import Comment from '@/Components/Comment.vue';
     
     const props = defineProps(['post', 'comments']);
 
@@ -25,11 +26,11 @@
                 <h3 class="text-lg font-medium text-gray-900">Comments</h3>
                 <ul class="divide-y divide-gray-200 mt-4">
                     <li v-for="comment in comments.data" :key="comment.id" class="px-2 py-4">
-                        <p class="text-sm">{{ comment.body }}</p>
-                        <p class="text-gray-500 text-sm">{{ formatDate(comment.created_at) }} by {{ comment.user.name }}</p>
+                        <Comment :comment="comment"/>
                     </li>
                 </ul>
-                <Pagination :meta="comments.meta" />    
+                
+                <Pagination :meta="comments.meta" :only="only" />    
 
             </div>
         </Container>
