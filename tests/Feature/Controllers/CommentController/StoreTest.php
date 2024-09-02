@@ -16,7 +16,6 @@ class StoreTest extends TestCase
         
         $response = $this->actingAs($user)
             ->post(route('posts.comments.store', $post), [
-                'user_id'=> $user->id,
                 'body' => 'This is a test comment',
             ]);
 
@@ -26,5 +25,14 @@ class StoreTest extends TestCase
             'user_id'=> $user->id,
             'body'=> 'This is a test comment',
         ]);
+    }
+
+    public function test_requires_authenticated_user_to_store_comment() {
+        
+        $response = $this->post(route('posts.comments.store', Post::factory()->create()), [
+            'body'=> 'This is a test comment',
+        ]);
+
+       $response->assertRedirect(route('login'));
     }
 }

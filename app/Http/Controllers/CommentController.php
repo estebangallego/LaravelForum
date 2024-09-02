@@ -29,13 +29,10 @@ class CommentController extends Controller
      */
     public function store(Request $request, Post $post)
     {
-        // dd($request->all());
         $validated = $request->validate([
             'body' => ['required', 'string', 'max:255'],
-            // 'user_id' => ['required', 'integer','exists:users,id'],
         ]);
 
-        // dd($validated);
         Comment::make($validated)
             ->user()->associate($request->user())
             ->post()->associate($post)
