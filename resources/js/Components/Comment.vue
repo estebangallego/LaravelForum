@@ -1,9 +1,15 @@
 <script setup>
     import { formatDate } from '@/Utilities/date.js';
-    import { router } from '@inertiajs/vue3';
+    import { router, usePage } from '@inertiajs/vue3';
+    import { computed } from 'vue';
     const props = defineProps(['comment']);
     const deleteComment = () => router.delete(route('comments.destroy', props.comment.id), {
         preserveScroll: true,
+    });
+    
+    const canDelete = computed(() => {
+        console.log(usePage().props.auth.user, props.comment.user.id);
+        return usePage().props.auth.user.id === props.comment.user.id;
     });
 
 </script>
@@ -20,7 +26,7 @@
           <div class="mt-2 flex items-center space-x-4">
             <button class="text-sm text-blue-600 hover:underline">Reply</button>
             <button class="text-sm text-gray-600 hover:underline">Like</button>
-            <form @submit.prevent="deleteComment">
+            <form v-if="canDelete" @submit.prevent="deleteComment">
               <button class="text-sm text-gray-600 hover:underline">Delete</button>
             </form>
             <span class="text-gray-500 text-sm">{{ formatDate(comment.created_at) }}</span>

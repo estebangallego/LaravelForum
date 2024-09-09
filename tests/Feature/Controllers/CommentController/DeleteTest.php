@@ -24,4 +24,11 @@ class DeleteTest extends TestCase
         $response->assertRedirect(route('posts.show', $comment->post));
     }
 
+    public function test_prevent_users_from_deleting_others_comments()
+    {
+        $user = User::factory()->create();
+        $comment = Comment::factory()->create();
+        $response = $this->actingAs($user)->delete(route('comments.destroy', $comment));
+        $response->assertForbidden();
+    }
 }
