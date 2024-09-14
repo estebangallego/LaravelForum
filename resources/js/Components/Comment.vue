@@ -25,7 +25,7 @@
           <div class="mt-2 flex items-center space-x-4">
             <button class="text-sm text-blue-600 hover:underline">Reply</button>
             <button class="text-sm text-gray-600 hover:underline">Like</button>
-            <form v-if="canDelete" @submit.prevent="deleteComment">
+            <form v-if="comment.can?.delete" @submit.prevent="deleteComment">
               <button  class="text-sm text-gray-600 hover:underline">Delete</button>
             </form>
             <span class="text-gray-500 text-sm">{{ formatDate(comment.created_at) }}</span>
