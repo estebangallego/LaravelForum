@@ -44,6 +44,7 @@ class User extends Authenticatable implements MustVerifyEmail
     // ];
 
     protected $visible = [
+        'id',
         'name',
         'email',
         'updated_at',
