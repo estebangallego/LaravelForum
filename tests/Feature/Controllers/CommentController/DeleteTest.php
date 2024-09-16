@@ -31,4 +31,15 @@ class DeleteTest extends TestCase
         $response = $this->actingAs($user)->delete(route('comments.destroy', $comment));
         $response->assertForbidden();
     }
+
+    public function test_prevents_deleting_comments_after_an_hour()
+    {   
+        $this->freezeTime();
+        $user = User::factory()->create();
+        $comment = Comment::factory()->for($user)->create();
+
+        $this->travel(1)->hour();
+        $response = $this->actingAs($user)->delete(route('comments.destroy', $comment));
+        $response->assertForbidden();
+    }
 }
