@@ -4,7 +4,7 @@
     import Pagination from '@/Components/Pagination.vue';
     import {formatDate} from '@/Utilities/date.js';
     import Comment from '@/Components/Comment.vue';
-    import { useForm } from '@inertiajs/vue3';
+    import { useForm, router } from '@inertiajs/vue3';
     import PrimaryButton from '@/Components/PrimaryButton.vue';
     import InputError from '@/Components/InputError.vue';
     const props = defineProps(['post', 'comments']);
@@ -18,6 +18,11 @@
             onSuccess: () => commentForm.reset()
         });
     }
+
+    const deleteComment = (commentId) => router.delete(route('comments.destroy', {comment:commentId, page: props.comments.meta.current_page}), {
+        preserveScroll: true,
+    });
+    
     
 
 </script>
@@ -58,7 +63,7 @@
                 
                 <ul class="divide-y divide-gray-200 mt-4 break-all">
                     <li v-for="comment in comments.data" :key="comment.id" class="px-2 py-4">
-                        <Comment :comment="comment"/>
+                        <Comment @delete="deleteComment" :comment="comment"/>
                     </li>
                 </ul>
                 
