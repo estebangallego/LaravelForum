@@ -33,7 +33,7 @@ class EditCommentsTest extends TestCase
 
         $comment = Comment::factory()->for($this->user)->create(['body' => 'This is a test comment']);
         $commentUpdate = 'This is an updated comment';
-        $response = $this->actingAs($this->user)->put(route('comments.update', $comment), [
+        $this->actingAs($this->user)->put(route('comments.update', $comment), [
             'body' => $commentUpdate,
         ]);
         $this->assertDatabaseHas('comments', [
@@ -66,7 +66,24 @@ class EditCommentsTest extends TestCase
         $response->assertForbidden();
     }
 
-    // Can delete comments
-
     // Validate comments
+    public function test_validate_comments() 
+    {
+        $comment = Comment::factory()->for($this->user)->create();
+        $invalidInputs = [
+            '' => 'The body field is required.',
+            null => 'The body field is required.',
+            1 => 'The body field must be a string.',
+            str_repeat('a', 2501) => 'The body field must not be greater than 2500 characters.',
+            true => 'The body field must be a string.',
+        ];
+
+        foreach ($invalidInputs as $input => $message) {
+            $response = $this->actingAs($this->user)->put(route('comments.update', $comment), [
+                'body' => $input,
+            ]);
+
+            $response->assertInvalid(['body' => [$message]]);
+        }
+    }
 }
