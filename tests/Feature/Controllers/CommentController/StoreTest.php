@@ -5,16 +5,27 @@ use Tests\TestCase;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class StoreTest extends TestCase
 {
+    use RefreshDatabase;
+
+    protected User $user;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->user = User::factory()->create();
+    }
+
+
     public function test_store_comment()
     {
-        $user = User::factory()->create();
         $post = Post::factory()->create();
 
         
-        $response = $this->actingAs($user)
+        $response = $this->actingAs($this->user)
             ->post(route('posts.comments.store', $post), [
                 'body' => 'This is a test comment',
             ]);
@@ -22,7 +33,7 @@ class StoreTest extends TestCase
         $response->assertRedirect(route('posts.show', $post));
         $this->assertDatabaseHas(Comment::class, [
             'post_id' => $post->id,
-            'user_id'=> $user->id,
+            'user_id'=> $this->user->id,
             'body'=> 'This is a test comment',
         ]);
     }

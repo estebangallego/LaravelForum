@@ -3,14 +3,13 @@
 namespace Tests\Feature\Controllers;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\Comment;
 use App\Models\User;
 
 class EditCommentsTest extends TestCase
 {
-
+    use RefreshDatabase;
     protected User $user;
 
     public function setUp(): void

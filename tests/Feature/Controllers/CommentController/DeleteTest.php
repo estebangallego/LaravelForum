@@ -5,9 +5,11 @@ namespace Tests\Feature\Controllers\CommentController;
 use App\Models\Comment;
 use Tests\TestCase;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class DeleteTest extends TestCase
 {
+    use RefreshDatabase;
     protected User $user;
 
     public function setUp(): void
