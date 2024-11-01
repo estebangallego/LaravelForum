@@ -3,7 +3,7 @@
     import { router, usePage } from '@inertiajs/vue3';
     import { computed } from 'vue';
     const props = defineProps(['comment']);
-    const emit = defineEmits(['delete']);
+    const emit = defineEmits(['delete', 'edit']);
 
 
     const canDelete = computed(() => {
@@ -24,8 +24,11 @@
           <div class="mt-2 flex items-center space-x-4">
             <button class="text-sm text-blue-600 hover:underline">Reply</button>
             <button class="text-sm text-gray-600 hover:underline">Like</button>
+            <form v-if="comment.can?.update" @submit.prevent="$emit('edit', comment.id)">
+              <button class="text-sm text-gray-600 hover:underline">Update</button>
+            </form>
             <form v-if="comment.can?.delete" @submit.prevent="$emit('delete', comment.id)">
-              <button  class="text-sm text-red-600 hover:underline">Delete</button>
+              <button class="text-sm text-red-600 hover:underline">Delete</button>
             </form>
             <span class="text-gray-500 text-sm">{{ formatDate(comment.created_at) }}</span>
           </div>
