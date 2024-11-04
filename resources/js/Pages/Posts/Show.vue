@@ -101,9 +101,12 @@ import TextInput from '@/Components/TextInput.vue';
         });
     }
 
-    const deleteComment = (commentId) => router.delete(route('comments.destroy', {comment:commentId, page: props.comments.meta.current_page}), {
-        preserveScroll: true,
-    });
+    const deleteComment = (commentId) => {
+        if (!confirm('Are you sure you want to delete this comment?')) return;
+        router.delete(route('comments.destroy', {comment:commentId, page: props.comments.meta.current_page}), {
+            preserveScroll: true,
+        });
+    }
     
     
 
