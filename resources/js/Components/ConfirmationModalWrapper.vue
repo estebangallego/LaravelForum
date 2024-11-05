@@ -3,6 +3,7 @@
     import PrimaryButton from './PrimaryButton.vue';
     import SecondaryButton from './SecondaryButton.vue';
     import {useConfirm} from '@/Utilities/Composables/useConfirm.js';
+import { watchEffect } from 'vue';
     
     const {state, confirm, cancel} = useConfirm();
 

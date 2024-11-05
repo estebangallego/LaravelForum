@@ -17,9 +17,9 @@ export function useConfirm() {
 
     return {
         state: readonly(globalState),
-        confirmation: (message) => {
+        confirmation: (message, title = 'Please confirm') => {
             globalState.show = true;
-            globalState.title = 'Please confirm';
+            globalState.title = title;
             globalState.message = message;
 
             return new Promise((resolver) => {

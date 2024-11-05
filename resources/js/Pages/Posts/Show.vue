@@ -97,14 +97,16 @@
         });
     }
 
-    const updateComment = () => {
+    const { confirmation } = useConfirm();
+
+    const updateComment = async () => {
+        if (! await confirmation('Are you sure you want to update this comment?')) return;
         commentForm.put(route('comments.update', commentBeingIdEdited.value), {
             preserveScroll: true,
             onSuccess: () => commentForm.reset()
         });
     }
 
-    const { confirmation } = useConfirm();
 
     const deleteComment = async (commentId) => {
         if (! await confirmation('Are you sure you want to delete this comment?')) return;
