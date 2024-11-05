@@ -66,16 +66,19 @@
     import InputError from '@/Components/InputError.vue';
     import SecondaryButton from '@/Components/SecondaryButton.vue';
     import InputLabel from '@/Components/InputLabel.vue';
-import TextInput from '@/Components/TextInput.vue';
+    import { useConfirm } from '@/Utilities/Composables/useConfirm.js';
 
     const props = defineProps(['post', 'comments']);
     const commentForm = useForm({
         body: '',
     });
+    
 
     const commentTextAreaRef = ref(null);
     const commentBeingIdEdited = ref(null);
     const commentBeingEdited = computed(() => props.comments.data.find(comment => comment.id === commentBeingIdEdited.value));
+    
+    
     const editComment = (commentId) => {
         commentBeingIdEdited.value = commentId;
         commentForm.body = commentBeingEdited.value?.body;
@@ -101,8 +104,10 @@ import TextInput from '@/Components/TextInput.vue';
         });
     }
 
-    const deleteComment = (commentId) => {
-        if (!confirm('Are you sure you want to delete this comment?')) return;
+    const { confirmation } = useConfirm();
+
+    const deleteComment = async (commentId) => {
+        if (! await confirmation('Are you sure you want to delete this comment?')) return;
         router.delete(route('comments.destroy', {comment:commentId, page: props.comments.meta.current_page}), {
             preserveScroll: true,
         });

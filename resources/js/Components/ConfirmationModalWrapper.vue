@@ -1,26 +1,29 @@
-<script setup>
+<script setup >
     import ConfirmationModal from '@/Components/ConfirmationModal.vue';
     import PrimaryButton from './PrimaryButton.vue';
     import SecondaryButton from './SecondaryButton.vue';
+    import {useConfirm} from '@/Utilities/Composables/useConfirm.js';
+    
+    const {state, confirm, cancel} = useConfirm();
+
 </script>
 
 
 <template>
-    <ConfirmationModal :show="true">
-
+    <ConfirmationModal :show="state.show">
         <template #title>
-            Are you sure?
+            {{ state.title }}
         </template>
 
         <template #content>
-            Do you really want to delete this item?
+            {{ state.message }}
         </template>
 
         <template #footer>
-            <PrimaryButton @click="$emit('confirm')">
+            <PrimaryButton @click="confirm">
                 Confirm
             </PrimaryButton>
-            <SecondaryButton @click="$emit('close')">
+            <SecondaryButton class="ml-3" @click="cancel">
                 Cancel
             </SecondaryButton>
         </template>
