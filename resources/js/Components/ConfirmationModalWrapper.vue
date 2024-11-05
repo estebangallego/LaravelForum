@@ -3,9 +3,17 @@
     import PrimaryButton from './PrimaryButton.vue';
     import SecondaryButton from './SecondaryButton.vue';
     import {useConfirm} from '@/Utilities/Composables/useConfirm.js';
-import { watchEffect } from 'vue';
+    import { watchEffect, ref, nextTick } from 'vue';
     
     const {state, confirm, cancel} = useConfirm();
+    const cancelButtonRef = ref(null);
+
+    watchEffect( async () => {
+        if (state.show) {
+            await nextTick();
+            cancelButtonRef.value?.$el.focus();
+        }
+    });
 
 </script>
 
@@ -24,7 +32,7 @@ import { watchEffect } from 'vue';
             <PrimaryButton @click="confirm">
                 Confirm
             </PrimaryButton>
-            <SecondaryButton class="ml-3" @click="cancel">
+            <SecondaryButton ref="cancelButtonRef" class="ml-3" @click="cancel">
                 Cancel
             </SecondaryButton>
         </template>
