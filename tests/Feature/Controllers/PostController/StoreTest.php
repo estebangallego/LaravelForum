@@ -26,6 +26,11 @@ class StoreTest extends TestCase
         ];
     }
 
+    public function test_it_requires_authentication()
+    {
+        $this->post(route('posts.store'))->assertRedirect(route('login')); 
+    }
+
     public function test_store_post()
     {
         $this->actingAs($this->user)
@@ -40,9 +45,8 @@ class StoreTest extends TestCase
 
     public function test_store_post_with_invalid_data()
     {
-        $invalidData = ['', null, 1, true, str_repeat('a', 256)];
-
-        foreach ($invalidData as $data) {
+        $invalidTitle = ['', null, 1, true, str_repeat('a', 256)];
+        foreach ($invalidTitle as $data) {
             $this->actingAs($this->user)
             ->post(route('posts.store'), [
                 'title' => $data,
@@ -52,6 +56,15 @@ class StoreTest extends TestCase
             ->assertInvalid(['title']);      
         }
 
+        $invalidBody = ['', null, 1, true, str_repeat('a', 2501)];
+        foreach ($invalidBody as $data) {
+            $this->actingAs($this->user)
+            ->post(route('posts.store'), [
+                'title' => Faker::create()->sentence(),
+                'body' => $data,
+                'user_id' => $this->user->id
+            ])
+            ->assertInvalid(['body']);      
+        }
     }
-
 }

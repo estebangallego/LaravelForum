@@ -20,10 +20,10 @@ class ShowTest extends TestCase
     {
         $post = Post::factory(1)->create();
         $post->load('user');
-        $response = $this->get(route('posts.show', $post->first()));
-        $response->assertComponent('Posts/Show', true);
-        $response->assertHasResource("post", PostResource::make($post->first()));
-        $response->assertStatus(200);
+        $this->get(route('posts.show', $post->first()))
+            ->assertComponent('Posts/Show', true)
+            ->assertHasResource("post", PostResource::make($post->first()))
+            ->assertStatus(200);
     }
 
 
