@@ -30,4 +30,3 @@ Route::middleware([
 });
 
 Route::resource('posts', PostController::class)->only(['index', 'show']);
-// Route::get('posts/{post}', [PostController::class, 'show'])->name('posts.show');

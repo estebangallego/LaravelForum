@@ -31,10 +31,10 @@ class PostController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
+    {        
         $validated = $request->validate([
-            'title' => ['required', 'string', 'max:255'],
-            'body' => ['required', 'string', 'max:2500'],
+            'title' => ['required', 'string', 'max:255', 'min:5'],
+            'body' => ['required', 'string', 'max:2500', 'min:10'],
         ]);
         
         $post = Post::create([
@@ -42,7 +42,7 @@ class PostController extends Controller
             'title' => $validated['title'],
             'body' => $validated['body'],
         ]);
-        dd($post);
+        
         return to_route('posts.show', $post);
     }
 
