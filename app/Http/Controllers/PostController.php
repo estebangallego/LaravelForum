@@ -21,11 +21,7 @@ class PostController extends Controller
      */
     public function __construct()
     {
-        // This middleware will check if the user has the necessary permissions to
-        // view the Posts pages. The middleware will use the
-        // policies defined in the PostPolicy class to check the permissions.
-        // The ':'.Post::class is used to specify the model that the middleware
-        // should use to check the permissions.
+        // This middleware will check if the user has the necessary permissions to access the index and show actions.
         // You can also add ->only(['index', 'show']) to limit the actions that the middleware will check.
         $this->middleware(ResourceAuthorization::class . ':' . Post::class );
     }
