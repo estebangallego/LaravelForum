@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\CommentResource;
 use App\Http\Middleware\ResourceAuthorization;
 use App\Models\User;
-
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -67,9 +67,12 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $user, Post $post)
+    public function show(Request $request, User $user, Post $post)
     {
-        
+        if (!Str::contains($post->showRoute(), request()->path())) {
+            return redirect($post->showRoute($request->query()), status: 302);
+        }
+
         $post->load('user');
         return inertia('Posts/Show', [
             'post' => fn() => PostResource::make($post),
