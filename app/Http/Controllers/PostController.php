@@ -61,7 +61,7 @@ class PostController extends Controller
             'body' => $validated['body'],
         ]);
         
-        return to_route('posts.show', $post);
+        return redirect($post->showRoute())->banner('Post created!');
     }
 
     /**
@@ -70,7 +70,7 @@ class PostController extends Controller
     public function show(Request $request, User $user, Post $post)
     {
         if (!Str::contains($post->showRoute(), request()->path())) {
-            return redirect($post->showRoute($request->query()), status: 302);
+            return redirect($post->showRoute($request->query()), status: 301);
         }
 
         $post->load('user');
