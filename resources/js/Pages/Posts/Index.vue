@@ -20,7 +20,7 @@
             <ul class="divide-y divide-gray-200">
                 <li v-for="post in posts.data" :key="post.id" class="px-2 py-4">
                     <Link 
-                        :href="route('posts.show', post.id)" class="group">
+                        :href="post.routes.show" class="group">
                         <span class="font-semibold group-hover:text-indigo-500">{{ post.title }}</span>
                         <p class="text-gray-500 text-sm">{{ formatDate(post.created_at) }} by {{ post.user.name }}</p>
                     </Link>
