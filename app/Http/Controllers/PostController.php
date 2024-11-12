@@ -6,9 +6,30 @@ use App\Http\Resources\PostResource;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Http\Resources\CommentResource;
+use App\Http\Middleware\ResourceAuthorization;
+use App\Models\User;
+
 
 class PostController extends Controller
 {
+
+
+    /**
+     * Register the resource authorization middleware for index and show.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        // This middleware will check if the user has the necessary permissions to
+        // view the Posts pages. The middleware will use the
+        // policies defined in the PostPolicy class to check the permissions.
+        // The ':'.Post::class is used to specify the model that the middleware
+        // should use to check the permissions.
+        // You can also add ->only(['index', 'show']) to limit the actions that the middleware will check.
+        $this->middleware(ResourceAuthorization::class . ':' . Post::class );
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -24,6 +45,7 @@ class PostController extends Controller
      */
     public function create()
     {
+        // Gate::authorize('create', Post::class);
         return inertia('Posts/Create');
     }
 
@@ -49,7 +71,7 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Post $post)
+    public function show(User $user, Post $post)
     {
         $post->load('user');
         return inertia('Posts/Show', [
