@@ -18,11 +18,11 @@ class ShowTest extends TestCase
      */
     public function test_show_page(): void
     {
-        $post = Post::factory(1)->create();
+        $post = Post::factory()->create();
         $post->load('user');
-        $this->get(route('posts.show', $post->first()))
+        $this->get($post->showRoute())
             ->assertComponent('Posts/Show', true)
-            ->assertHasResource("post", PostResource::make($post->first()))
+            ->assertHasResource("post", PostResource::make($post))
             ->assertStatus(200);
     }
 
@@ -34,7 +34,7 @@ class ShowTest extends TestCase
         $comments = Comment::factory(3)->for($post)->create();
         $comments->load('user');
 
-        $response = $this->get(route("posts.show", $post->first()));
+        $response = $this->get($post->showRoute());
         $response->assertPaginatedResource("comments", CommentResource::collection($comments->reverse()));
     }
 
