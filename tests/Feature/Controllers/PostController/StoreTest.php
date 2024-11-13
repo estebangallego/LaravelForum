@@ -33,9 +33,10 @@ class StoreTest extends TestCase
 
     public function test_store_post()
     {
-        $this->actingAs($this->user)
-            ->post(route('posts.store'), $this->validData)
-            ->assertRedirect(route('posts.show', Post::latest('id')->first()));
+        $post = $this->actingAs($this->user)
+            ->post(route('posts.store'), $this->validData);
+        
+        $post->assertRedirect(Post::latest('id')->first()->showRoute());
     
         $this->assertDatabaseHas(Post::class, [
             ...$this->validData,

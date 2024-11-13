@@ -30,7 +30,7 @@ class StoreTest extends TestCase
                 'body' => 'This is a test comment',
             ]);
 
-        $response->assertRedirect(route('posts.show', $post));
+        $response->assertRedirect($post->showRoute());
         $this->assertDatabaseHas(Comment::class, [
             'post_id' => $post->id,
             'user_id'=> $this->user->id,

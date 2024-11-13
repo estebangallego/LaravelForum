@@ -48,7 +48,7 @@ class EditCommentsTest extends TestCase
         $response = $this->actingAs($this->user)->put(route('comments.update', $comment), [
             'body' => 'This is an updated comment',
         ]);
-        $response->assertRedirect(route('posts.show', $comment->post));
+        $response->assertRedirect($comment->post->showRoute());
     }
 
 

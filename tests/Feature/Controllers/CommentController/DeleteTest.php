@@ -31,7 +31,7 @@ class DeleteTest extends TestCase
         $comment = Comment::factory()->for($this->user)->create();
         $response = $this->actingAs($this->user)->delete(route('comments.destroy', $comment));
         $this->assertModelMissing($comment);
-        $response->assertRedirect(route('posts.show', $comment->post));
+        $response->assertRedirect($comment->post->showRoute());
     }
 
     public function test_prevent_users_from_deleting_others_comments()
@@ -57,7 +57,7 @@ class DeleteTest extends TestCase
             route('comments.destroy', ['comment' => $comment, 'page' => 2]),
         );
         $response->assertRedirect(
-            route('posts.show', ['post' => $comment->post, 'page' => 2])
+            $comment->post->showRoute(['page' => 2]),
         );
     }
 }
