@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-white rounded-md shadow-sm border-0">
+    <div class="bg-white rounded-md shadow-sm border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400">
         <editor-content :editor="editor" />
     </div>
 </template>
