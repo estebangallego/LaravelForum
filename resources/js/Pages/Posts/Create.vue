@@ -2,7 +2,7 @@
     <AppLayout title="Create a Post">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                 Create a Post 
+                 Create a Post
             </h2>
         </template>
 
@@ -13,6 +13,11 @@
                 <div>
                     <InputLabel for="title"> Title </InputLabel>
                     <TextInput id="title" v-model="form.title" class="mt-2 w-full" aria-placeholder="Give it a great title" />
+
+                    ----------------------
+                    <MarkdownEditor />
+                    ----------------------
+
                     <InputError :message="form.errors.title" class="mt-2" />
                 </div>
                 <div>
@@ -25,7 +30,7 @@
                 </div>
             </form>
             </article>
-    
+
         </Container>
 
     </AppLayout>
@@ -39,13 +44,13 @@
     import TextInput from '@/Components/TextInput.vue';
     import InputError from '@/Components/InputError.vue';
     import { useForm } from '@inertiajs/vue3';
-
+    import MarkdownEditor from '@/Components/MarkdownEditor.vue';
     const form = useForm({
         body: '',
         title: ''
     });
 
     const createPost = () => form.post(route('posts.store'));
-    
+
 
 </script>

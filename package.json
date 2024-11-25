@@ -19,6 +19,9 @@
         "vue": "^3.3.13"
     },
     "dependencies": {
-        "@heroicons/vue": "^2.1.5"
+        "@heroicons/vue": "^2.1.5",
+        "@tiptap/pm": "^2.10.2",
+        "@tiptap/starter-kit": "^2.10.2",
+        "@tiptap/vue-3": "^2.10.2"
     }
 }
