@@ -15,7 +15,7 @@
                     <TextInput id="title" v-model="form.title" class="mt-2 w-full" aria-placeholder="Give it a great title" />
 
                     ----------------------
-                    <MarkdownEditor />
+                    <MarkdownEditor v-model="form.body" />
                     ----------------------
 
                     <InputError :message="form.errors.title" class="mt-2" />
