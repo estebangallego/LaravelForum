@@ -1,5 +1,8 @@
 <template>
-    <div class="bg-white rounded-md shadow-sm border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400">
+    <div class="bg-white rounded-md shadow-sm border-0
+         ring-1 ring-inset ring-gray-300
+         placeholder:text-gray-400
+         focus:ring-2 focus:ring-inset focus:ring-indigo-600">
         <editor-content :editor="editor" />
     </div>
 </template>
@@ -22,7 +25,7 @@
       extensions: [StarterKit, Markdown],
       editorProps: {
         attributes: {
-          class: 'prose prose-sm max-w-none',
+          class: 'min-h-[512px] prose prose-sm max-w-none py-2 px-3',
         },
       },
       onUpdate: () => {
