@@ -23,6 +23,7 @@
         "@tiptap/pm": "^2.10.2",
         "@tiptap/starter-kit": "^2.10.2",
         "@tiptap/vue-3": "^2.10.2",
+        "remixicon": "^4.5.0",
         "tiptap-markdown": "^0.8.10"
     }
 }

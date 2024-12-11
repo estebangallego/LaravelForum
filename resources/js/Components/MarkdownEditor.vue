@@ -1,8 +1,28 @@
 <template>
-    <div class="bg-white rounded-md shadow-sm border-0
+    <div v-if="editor" class="bg-white rounded-md shadow-sm border-0
          ring-1 ring-inset ring-gray-300
          placeholder:text-gray-400
          focus:ring-2 focus:ring-inset focus:ring-indigo-600">
+         <menu class="flex divide-x border-b">
+            <li>
+                <button @click="() => editor.chain().focus().toggleBold().run()"
+                    type="button"
+                    class="px-3 py-2 rounded-tl-md"
+                    :class="[editor.isActive('bold') ? 'bg-indigo-500 text-white' : 'hover:bg-gray-200']"
+                    title="Bold">
+                    <i class="ri-bold"></i>
+                </button>
+            </li>
+            <li>
+                <button @click="() => editor.chain().focus().toggleItalic().run()"
+                    type="button"
+                    class="px-3 py-2"
+                    :class="[editor.isActive('italic') ? 'bg-indigo-500 text-white' : 'hover:bg-gray-200']"
+                    title="Italic">
+                    <i class="ri-italic"></i>
+                </button>
+            </li>
+         </menu>
         <editor-content :editor="editor" />
     </div>
 </template>
@@ -11,6 +31,7 @@
     import { useEditor, EditorContent } from '@tiptap/vue-3'
     import StarterKit from '@tiptap/starter-kit'
     import { watch } from 'vue';
+    import 'remixicon/fonts/remixicon.css'
     // Including markdown extension: npm install tiptap-markdown
     import { Markdown } from 'tiptap-markdown';
 
