@@ -31,15 +31,6 @@
                     <i class="ri-strikethrough"></i>
                 </button>
             </li>
-            <li>
-                <button @click="() => editor.chain().focus().toggleCodeBlock().run()"
-                    type="button"
-                    class="px-3 py-2"
-                    :class="[editor.isActive('codeBlock') ? 'bg-indigo-500 text-white' : 'hover:bg-gray-200']"
-                    title="Code Block">
-                    <i class="ri-code-s-line"></i>
-                </button>
-            </li>
             <li> 
                 <button @click="() => editor.chain().focus().toggleHeading({ level: 1 }).run()"
                     type="button"
@@ -71,7 +62,7 @@
                 <button @click="() => editor.chain().focus().toggleBlockquote().run()"
                     type="button"
                     class="px-3 py-2"
-                    :class="[editor.isActive('blockquxwote') ? 'bg-indigo-500 text-white' : 'hover:bg-gray-200']"
+                    :class="[editor.isActive('blockquote') ? 'bg-indigo-500 text-white' : 'hover:bg-gray-200']"
                     title="Quote">
                     <i class="ri-double-quotes-l"></i>
                 </button>
@@ -101,6 +92,24 @@
                     :class="[editor.isActive('horizontalRule') ? 'bg-indigo-500 text-white' : 'hover:bg-gray-200']"
                     title="Horizontal Rule">
                     <i class="ri-separator"></i>
+                </button>
+            </li>
+            <li>
+                <button @click="promptUserForHref"
+                    type="button"
+                    class="px-3 py-2"
+                    :class="[editor.isActive('link') ? 'bg-indigo-500 text-white' : 'hover:bg-gray-200']"
+                    title="Add link">
+                    <i class="ri-link"></i>
+                </button>
+            </li>
+            <li>
+                <button @click="() => editor.chain().focus().toggleCodeBlock().run()"
+                    type="button"
+                    class="px-3 py-2"
+                    :class="[editor.isActive('codeBlock') ? 'bg-indigo-500 text-white' : 'hover:bg-gray-200']"
+                    title="Code Block">
+                    <i class="ri-code-s-line"></i>
                 </button>
             </li>
          </menu>
@@ -141,6 +150,18 @@
         editor.value?.commands.setContent(value);
     }, { immediate: true });
 
+    const promptUserForHref = () => {
+      if (editor.value?.isActive('link')) {
+        return editor.value?.chain().focus().unsetLink().run();
+      }
+      const href = prompt('Where do you want to link to?');
+      if (!href) {
+          return editor.value?.chain().focus().run();
+      }
+
+      return editor.value?.chain().focus().setLink({ href }).run();
+
+    };
 
   </script>
 
