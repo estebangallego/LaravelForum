@@ -8,8 +8,8 @@
         </template>
 
         <Container>
-            <article>
-                <pre class="whitespace-pre-wrap font-sans">{{ post.body }}</pre>
+            <article class="mt-4 prose prose-sm max-w-none" v-html="post.html">
+                
             </article>
             <div class="mt-6"> 
                 <form @submit.prevent="() => commentBeingIdEdited ? updateComment() : addComment()" v-if="$page.props.auth.user" class="mt-4">
