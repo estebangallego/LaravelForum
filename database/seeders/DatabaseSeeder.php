@@ -5,9 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use App\Models\Post;
 use App\Models\Comment;
-
 use Carbon\Factory;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -18,7 +16,8 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $users = User::factory(10)->create();
-        $post = Post::factory(200)
+        $post = Post::factory(1)
+            ->withFixture()
             ->has(Comment::factory(15)
             ->recycle($users))
             ->recycle($users)
@@ -27,7 +26,7 @@ class DatabaseSeeder extends Seeder
         // WARNING: This is just for testing purposes
         if (!User::where('email', 'test@example.com')->exists()) {
                 User::factory()
-                    ->has(Post::factory(45))
+                    ->has(Post::factory(45)->withFixture())
                     ->has(Comment::factory(20)->recycle($post) )
                     ->create([
                         'name' => 'Esteban',
@@ -35,7 +34,7 @@ class DatabaseSeeder extends Seeder
                         'password'=> bcrypt('password'),
                     ]);
         }
-
-
     }
+
+    
 }
