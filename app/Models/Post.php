@@ -13,6 +13,12 @@ class Post extends Model
 {
     use HasFactory;
 
+    protected static function booted() {
+        static::saving(
+            fn (self $post) => $post->fill(['html' => Str::markdown($post->body)])
+        );
+    }
+
     protected $guarded = ['id'];
 
     public function user() :BelongsTo
@@ -28,6 +34,7 @@ class Post extends Model
     public function title(): Attribute {
         return Attribute::set(fn ($value) => Str::title($value));
     }
+
 
     public function showRoute(array $params = []): string {
         return route('posts.show', [$this, Str::slug($this->title), ...$params]);
