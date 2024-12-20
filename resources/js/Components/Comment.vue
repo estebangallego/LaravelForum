@@ -18,9 +18,9 @@
         <img class="w-10 h-10 rounded-full" src="https://i.pravatar.cc/40" alt="User avatar">
         <div class="ml-3">
           <div class="text-sm font-medium text-gray-900">{{ comment.user.name }}</div>
-          <p class="mt-1 text-sm text-gray-700">
-            {{ comment.body }}
-          </p>
+
+          <div class="mt-1 prose prose-sm max-w-none" v-html="comment.html"></div>
+
           <div class="mt-2 flex items-center space-x-4">
             <button class="text-sm text-blue-600 hover:underline">Reply</button>
             <button class="text-sm text-gray-600 hover:underline">Like</button>

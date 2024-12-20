@@ -13,18 +13,9 @@
                 <div>
                     <InputLabel for="title"> Title </InputLabel>
                     <TextInput id="title" v-model="form.title" class="mt-2 w-full" aria-placeholder="Give it a great title" />
-
-                    ----------------------
-                    <MarkdownEditor v-model="form.body" class="mt-2"/>
-                    ----------------------
-
-                    <InputError :message="form.errors.title" class="mt-2" />
+                    <MarkdownEditor v-model="form.body" class="mt-2" placeholder="Add a new post" editorClass="min-h-[512px] mt-2"/> 
                 </div>
-                <div>
-                    <InputLabel for="body" class="mt-4"> Body </InputLabel>
-                    <textarea id="body" v-model="form.body" type="text" class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" rows="12" />
-                    <InputError :message="form.errors.body" class="mt-2" />
-                </div>
+
                 <div>
                     <PrimaryButton type="submit" class="mt-4">Create Post</PrimaryButton>
                 </div>

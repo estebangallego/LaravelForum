@@ -125,25 +125,31 @@
     // Including markdown extension: npm install tiptap-markdown
     import { Markdown } from 'tiptap-markdown';
     import Link from '@tiptap/extension-link';
+    import Placeholder from '@tiptap/extension-placeholder';
 
     const props = defineProps({
         modelValue: '',
+        editorClass: '',
+        placeholder: null
     });
 
     const emit = defineEmits(['update:modelValue']);
 
     const editor = useEditor({
-      content: '<p>I’m running Tiptap with Vue.js. This will be the  Markdown!🎉</p>',
-      extensions: [StarterKit, Markdown, Link],
+      extensions: [StarterKit, Markdown, Link, Placeholder.configure({
+        placeholder: props.placeholder,
+      })],
       editorProps: {
         attributes: {
-          class: 'min-h-[512px] prose prose-sm max-w-none py-2 px-3',
+          class: `prose prose-sm max-w-none py-2 px-3 ${props.editorClass}`,
         },
       },
       onUpdate: () => {
         emit('update:modelValue', editor.value?.storage.markdown.getMarkdown());
       },
     });
+
+    defineExpose({ focus: () => editor.value?.chain().focus().run() });
 
     watch(() => props.modelValue, (value) => {
         if (value === editor.value?.storage.markdown.getMarkdown()) return;
@@ -164,4 +170,16 @@
     };
 
   </script>
+
+<style scoped>
+    ::v-deep(.tiptap p.is-editor-empty:first-child::before) {
+        color: #9ca3af; /* text-gray-400 */
+        float: left;
+        height: 0;
+        pointer-events: none;
+        content: attr(data-placeholder);
+    }
+     
+
+</style>
 

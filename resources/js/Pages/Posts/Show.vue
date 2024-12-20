@@ -15,13 +15,12 @@
                 <form @submit.prevent="() => commentBeingIdEdited ? updateComment() : addComment()" v-if="$page.props.auth.user" class="mt-4">
                     <div class="mt-4">
                         <InputLabel for="body" value="Comments" />
-                        <textarea
+                        <MarkdownEditor
                             id="body"
                             ref="commentTextAreaRef"
-                            rows="4"
-                            placeholder="Speak your mind..."
                             v-model="commentForm.body"
-                            class="block w-full mt-1 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"       
+                            editorClass="min-h-[160px]"
+                            placeholder="Speak your mind..."
                         />
                         <PrimaryButton 
                             type="submit"
@@ -67,6 +66,7 @@
     import SecondaryButton from '@/Components/SecondaryButton.vue';
     import InputLabel from '@/Components/InputLabel.vue';
     import { useConfirm } from '@/Utilities/Composables/useConfirm.js';
+import MarkdownEditor from '@/Components/MarkdownEditor.vue';
 
     const props = defineProps(['post', 'comments']);
     const commentForm = useForm({
