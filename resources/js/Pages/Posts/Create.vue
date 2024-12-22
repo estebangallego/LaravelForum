@@ -13,7 +13,18 @@
                 <div>
                     <InputLabel for="title"> Title </InputLabel>
                     <TextInput id="title" v-model="form.title" class="mt-2 w-full" aria-placeholder="Give it a great title" />
-                    <MarkdownEditor v-model="form.body" class="mt-2" placeholder="Add a new post" editorClass="min-h-[512px] mt-2"/> 
+                    <MarkdownEditor v-model="form.body" class="mt-2" placeholder="Add a new post" editorClass="min-h-[512px] mt-2">
+                        <template #toolbar = "{ editor }">
+                            <li>
+                                <button @click="autofill"
+                                    type="button"
+                                    class="px-3 py-2"
+                                    title="Autofill">
+                                    <i class="ri-article-line"></i>
+                                </button>
+                            </li>
+                        </template>
+                    </MarkdownEditor> 
                 </div>
 
                 <div>
@@ -42,6 +53,9 @@
     });
 
     const createPost = () => form.post(route('posts.store'));
-
+    const autofill = () => {
+        form.title = 'My first post';
+        form.body = 'This is my first post';
+    }
 
 </script>

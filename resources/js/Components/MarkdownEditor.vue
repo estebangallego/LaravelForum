@@ -112,6 +112,7 @@
                     <i class="ri-code-s-line"></i>
                 </button>
             </li>
+            <slot name="toolbar" :editor="editor" />
          </menu>
         <editor-content :editor="editor" />
     </div>
