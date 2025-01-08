@@ -12,9 +12,9 @@
                 <form @submit.prevent="createPost">
                 <div>
                     <InputLabel for="title"> Title </InputLabel>
-                    <TextInput id="title" v-model="form.title" class="mt-2 w-full" aria-placeholder="Give it a great title" />
+                    <TextInput id="title" v-model="form.title" class="mt-2 w-full" placeholder="Give it a title" />
                     <MarkdownEditor v-model="form.body" class="mt-2" placeholder="Add a new post" editorClass="min-h-[512px] mt-2">
-                        <template #toolbar = "{ editor }">
+                        <template #toolbar = "{ editor, toolbar }">
                             <li>
                                 <button @click="autofill"
                                     type="button"

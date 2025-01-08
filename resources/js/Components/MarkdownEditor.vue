@@ -114,7 +114,7 @@
             </li>
             <slot name="toolbar" :editor="editor" />
          </menu>
-        <editor-content :editor="editor" />
+        <EditorContent :editor="editor" />
     </div>
 </template>
 
