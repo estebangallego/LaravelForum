@@ -47,15 +47,17 @@
     import InputError from '@/Components/InputError.vue';
     import { useForm } from '@inertiajs/vue3';
     import MarkdownEditor from '@/Components/MarkdownEditor.vue';
+    import axios from 'axios';
     const form = useForm({
         body: '',
         title: ''
     });
 
     const createPost = () => form.post(route('posts.store'));
-    const autofill = () => {
-        form.title = 'My first post';
-        form.body = 'This is my first post';
+    const autofill = async () => {
+       const response = await axios.get(route('api.post-content'));
+       form.title = response.data.title;
+       form.body = response.data.body;
     }
 
 </script>

@@ -50,7 +50,7 @@ class PostController extends Controller
     {
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255', 'min:5'],
-            'body' => ['required', 'string', 'max:2500', 'min:10'],
+            'body' => ['required', 'string', 'max:5000', 'min:10'],
         ]);
 
         $post = Post::create([
