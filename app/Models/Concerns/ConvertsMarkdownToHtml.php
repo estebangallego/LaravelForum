@@ -1,11 +1,12 @@
 <?php
 
 namespace App\Models\Concerns;
+
 use Illuminate\Support\Str;
 
 trait ConvertsMarkdownToHtml
 {
-    protected static function bootConvertsMarkdownToHtml () 
+    protected static function bootConvertsMarkdownToHtml()
     {
         static::saving(function (self $model) {
             $markDownData = collect(self::getMarkdownToHtmlHtmlMap())
@@ -16,11 +17,12 @@ trait ConvertsMarkdownToHtml
                     'max_nesting_level' => 5,
                 ]));
 
-            return $model->fill($markDownData->toArray());  
+            return $model->fill($markDownData->toArray());
         });
     }
 
-    protected static function getMarkdownToHtmlHtmlMap(): array {
+    protected static function getMarkdownToHtmlHtmlMap(): array
+    {
         return [
             'body' => 'html',
         ];

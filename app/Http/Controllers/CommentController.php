@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Gate;
+
 class CommentController extends Controller
 {
     public function __construct()
@@ -31,13 +32,12 @@ class CommentController extends Controller
         return redirect($post->showRoute())->banner('Comment created!');
     }
 
-
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, Comment $comment)
     {
-        Gate::authorize("update", $comment);
+        Gate::authorize('update', $comment);
         $data = $request->validate([
             'body' => ['required', 'string', 'max:2500'],
         ]);
@@ -53,7 +53,7 @@ class CommentController extends Controller
      */
     public function destroy(Request $request, Comment $comment)
     {
-        Gate::authorize("delete", $comment);
+        Gate::authorize('delete', $comment);
         $comment->delete();
 
         return redirect($comment->post->showRoute(['page' => $request->query('page')]))

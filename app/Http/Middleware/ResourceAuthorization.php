@@ -10,7 +10,7 @@ class ResourceAuthorization
     public function handle($request, Closure $next, $modelClass)
     {
         $action = $request->route()->getActionMethod();
-        
+
         // Define a mapping between controller actions and policy methods
         $policyMethods = [
             'index' => 'viewAny',
@@ -25,7 +25,7 @@ class ResourceAuthorization
         if (isset($policyMethods[$action])) {
             $method = $policyMethods[$action];
             $model = $request->route($modelClass) ?? $modelClass;
-            
+
             if (Gate::denies($method, $model)) {
                 abort(403, "Unauthorized action: {$method}");
             }

@@ -2,14 +2,11 @@
 
 namespace Tests\Feature\Controllers;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
-use Inertia\Testing\AssertableInertia as Assert;
-use App\Models\Post;
+use App\Http\Resources\CommentResource;
 use App\Http\Resources\PostResource;
 use App\Models\Comment;
-use App\Http\Resources\CommentResource;
+use App\Models\Post;
+use Tests\TestCase;
 
 class ShowTest extends TestCase
 {
@@ -22,10 +19,9 @@ class ShowTest extends TestCase
         $post->load('user');
         $this->get($post->showRoute())
             ->assertComponent('Posts/Show', true)
-            ->assertHasResource("post", PostResource::make($post))
+            ->assertHasResource('post', PostResource::make($post))
             ->assertStatus(200);
     }
-
 
     public function test_passes_comments_to_view(): void
     {
@@ -35,7 +31,6 @@ class ShowTest extends TestCase
         $comments->load('user');
 
         $response = $this->get($post->showRoute());
-        $response->assertPaginatedResource("comments", CommentResource::collection($comments->reverse()));
+        $response->assertPaginatedResource('comments', CommentResource::collection($comments->reverse()));
     }
-
 }

@@ -16,11 +16,11 @@ class UserResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name'=> $this->name,
-            'email'=> $this->when($this->id === $request->user()?->id, $this->email),
+            'name' => $this->name,
+            'email' => $this->when($this->id === $request->user()?->id, $this->email),
             'profile_photo_url' => $this->when($this->id === $request->user()?->id, $this->profile_photo_url),
             'updated_at' => $this->updated_at,
-            'created_at' => $this->created_at
+            'created_at' => $this->created_at,
         ];
     }
 }

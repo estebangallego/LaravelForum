@@ -2,17 +2,18 @@
 
 namespace Tests\Feature\Controllers;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 use App\Models\Comment;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class EditCommentsTest extends TestCase
 {
     use RefreshDatabase;
+
     protected User $user;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->user = User::factory()->create();
@@ -23,11 +24,11 @@ class EditCommentsTest extends TestCase
     {
         $comment = Comment::factory()->create();
         $response = $this->put(route('comments.update', $comment));
-        $response->assertRedirect(route('login')); 
+        $response->assertRedirect(route('login'));
     }
 
     // Can update comments
-    public function test_can_update_comments() 
+    public function test_can_update_comments()
     {
 
         $comment = Comment::factory()->for($this->user)->create(['body' => 'This is a test comment']);
@@ -42,7 +43,7 @@ class EditCommentsTest extends TestCase
     }
 
     // Redirects to post show page with pagination
-    public function test_redirects_to_post_show_page() 
+    public function test_redirects_to_post_show_page()
     {
         $comment = Comment::factory()->for($this->user)->create();
         $response = $this->actingAs($this->user)->put(route('comments.update', $comment), [
@@ -51,9 +52,8 @@ class EditCommentsTest extends TestCase
         $response->assertRedirect($comment->post->showRoute());
     }
 
-
     // Can not update comments that are not yours
-    public function test_cannot_update_comments_that_are_not_yours() 
+    public function test_cannot_update_comments_that_are_not_yours()
     {
         $newUser = User::factory()->create();
         $comment = Comment::factory()->for($newUser)->create();
@@ -66,7 +66,7 @@ class EditCommentsTest extends TestCase
     }
 
     // Validate comments
-    public function test_validate_comments() 
+    public function test_validate_comments()
     {
         $comment = Comment::factory()->for($this->user)->create();
         $invalidInputs = [

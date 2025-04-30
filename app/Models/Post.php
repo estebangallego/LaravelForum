@@ -12,12 +12,12 @@ use Illuminate\Support\Str;
 
 class Post extends Model
 {
-    use HasFactory;
     use ConvertsMarkdownToHtml;
+    use HasFactory;
 
     protected $guarded = ['id'];
 
-    public function user() :BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
@@ -27,14 +27,13 @@ class Post extends Model
         return $this->hasMany(Comment::class);
     }
 
-    public function title(): Attribute {
+    public function title(): Attribute
+    {
         return Attribute::set(fn ($value) => Str::title($value));
     }
 
-
-    public function showRoute(array $params = []): string {
+    public function showRoute(array $params = []): string
+    {
         return route('posts.show', [$this, Str::slug($this->title), ...$params]);
     }
 }
-
-

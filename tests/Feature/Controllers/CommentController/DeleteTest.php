@@ -3,21 +3,21 @@
 namespace Tests\Feature\Controllers\CommentController;
 
 use App\Models\Comment;
-use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class DeleteTest extends TestCase
 {
     use RefreshDatabase;
+
     protected User $user;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->user = User::factory()->create();
     }
-
 
     public function test_require_auth()
     {
@@ -42,7 +42,7 @@ class DeleteTest extends TestCase
     }
 
     public function test_prevents_deleting_comments_after_an_hour()
-    {   
+    {
         $this->freezeTime();
         $comment = Comment::factory()->for($this->user)->create();
         $this->travel(1)->hour();
@@ -61,5 +61,3 @@ class DeleteTest extends TestCase
         );
     }
 }
-
-

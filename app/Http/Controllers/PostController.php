@@ -2,18 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\ResourceAuthorization;
+use App\Http\Resources\CommentResource;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
-use Illuminate\Http\Request;
-use App\Http\Resources\CommentResource;
-use App\Http\Middleware\ResourceAuthorization;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
-
-
     /**
      * Register the resource authorization middleware for index and show.
      *
@@ -23,7 +21,7 @@ class PostController extends Controller
     {
         // This middleware will check if the user has the necessary permissions to access the index and show actions.
         // You can also add ->only(['index', 'show']) to limit the actions that the middleware will check.
-        $this->middleware(ResourceAuthorization::class . ':' . Post::class );
+        $this->middleware(ResourceAuthorization::class.':'.Post::class);
     }
 
     /**
@@ -49,18 +47,18 @@ class PostController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {        
+    {
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255', 'min:5'],
             'body' => ['required', 'string', 'max:2500', 'min:10'],
         ]);
-        
+
         $post = Post::create([
             'user_id' => $request->user()->id,
             'title' => $validated['title'],
             'body' => $validated['body'],
         ]);
-        
+
         return redirect($post->showRoute())->banner('Post created!');
     }
 
@@ -69,14 +67,15 @@ class PostController extends Controller
      */
     public function show(Request $request, User $user, Post $post)
     {
-        if (!Str::contains($post->showRoute(), request()->path())) {
+        if (! Str::contains($post->showRoute(), request()->path())) {
             return redirect($post->showRoute($request->query()), status: 301);
         }
 
         $post->load('user');
+
         return inertia('Posts/Show', [
-            'post' => fn() => PostResource::make($post),
-            'comments' =>fn() => CommentResource::collection($post->comments()->with('user')->latest()->latest('id')->paginate(10)),
+            'post' => fn () => PostResource::make($post),
+            'comments' => fn () => CommentResource::collection($post->comments()->with('user')->latest()->latest('id')->paginate(10)),
         ]);
     }
 

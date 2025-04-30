@@ -1,9 +1,10 @@
 <?php
 
 namespace Tests\Feature\Models;
+
 use App\Models\Post;
-use Tests\TestCase;
 use Illuminate\Support\Str;
+use Tests\TestCase;
 
 class PostTest extends TestCase
 {
@@ -21,5 +22,4 @@ class PostTest extends TestCase
         // expect post body to be markdown
         $this->assertEquals($post->html, Str::markdown($post->body));
     }
-
 }

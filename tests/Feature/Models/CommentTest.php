@@ -3,9 +3,8 @@
 namespace Tests\Feature\Models;
 
 use App\Models\Comment;
-use Tests\TestCase;
 use Illuminate\Support\Str;
-
+use Tests\TestCase;
 
 class CommentTest extends TestCase
 {
@@ -17,5 +16,4 @@ class CommentTest extends TestCase
         // expect post body to be markdown
         $this->assertEquals($comment->html, Str::markdown($comment->body));
     }
-
 }

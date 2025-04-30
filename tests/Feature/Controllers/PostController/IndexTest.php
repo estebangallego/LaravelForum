@@ -2,16 +2,9 @@
 
 namespace Tests\Feature;
 
-use App\Http\Resources\CommentResource;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use PHPUnit\Framework\Assert as PHPUnit;
-use Inertia\Testing\AssertableInertia as Assert;
-use Tests\TestCase;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
-
-
+use Tests\TestCase;
 
 class IndexTest extends TestCase
 {
@@ -20,7 +13,7 @@ class IndexTest extends TestCase
      */
     public function test_index_controller(): void
     {
-        $response = $this->get(route("posts.index"));
+        $response = $this->get(route('posts.index'));
         $response->assertComponent('Posts/Index', true);
         $response->assertStatus(200);
     }
@@ -29,7 +22,7 @@ class IndexTest extends TestCase
     {
         $posts = Post::factory(3)->create();
         $posts->load('user');
-        $response = $this->get(route("posts.index"));
-        $response->assertPaginatedResource("posts", PostResource::collection($posts->reverse()));
+        $response = $this->get(route('posts.index'));
+        $response->assertPaginatedResource('posts', PostResource::collection($posts->reverse()));
     }
 }
