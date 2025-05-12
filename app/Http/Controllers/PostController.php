@@ -7,6 +7,7 @@ use App\Http\Resources\CommentResource;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Topic;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -27,10 +28,15 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(?Topic $topic = null)
     {
+        $posts = Post::with(['user', 'topic'])
+            ->when($topic, fn ($query) => $query->where('topic_id', $topic->id))
+            ->latest('id')
+            ->paginate();
+
         return inertia('Posts/Index', [
-            'posts' => fn () => PostResource::collection(Post::with('user')->latest('id')->paginate()),
+            'posts' => PostResource::collection($posts),
         ]);
     }
 

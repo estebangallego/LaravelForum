@@ -4,6 +4,8 @@ namespace Tests\Feature;
 
 use App\Http\Resources\PostResource;
 use App\Models\Post;
+use App\Models\Topic;
+use App\Http\Resources\TopicResource;
 use Tests\TestCase;
 
 class IndexTest extends TestCase
@@ -21,8 +23,27 @@ class IndexTest extends TestCase
     public function test_index_posts(): void
     {
         $posts = Post::factory(3)->create();
-        $posts->load('user');
+        $posts->load(['user', 'topic']);
         $response = $this->get(route('posts.index'));
         $response->assertPaginatedResource('posts', PostResource::collection($posts->reverse()));
+    }
+
+    public function test_index_topics(): void
+    {
+        $general = Topic::factory()->create();
+        $posts = Post::factory(3)->for($general)->create();
+
+        $posts->load(['user', 'topic']);
+
+        $response = $this->get(route('posts.index', ['topic' => $general->id]));
+        $response->assertPaginatedResource('posts', PostResource::collection($posts->reverse()));
+    }
+
+    public function test_index_passes_topic_to_view(): void
+    {
+        $topic = Topic::factory()->create();
+
+        $response = $this->get(route('posts.index', ['topic' => $topic]));
+        $response->assertSee($topic->name);
     }
 }

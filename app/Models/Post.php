@@ -36,4 +36,9 @@ class Post extends Model
     {
         return route('posts.show', [$this, Str::slug($this->title), ...$params]);
     }
+
+    public function topic(): BelongsTo
+    {
+        return $this->belongsTo(Topic::class);
+    }
 }
