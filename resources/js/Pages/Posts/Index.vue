@@ -4,16 +4,25 @@
     import { Link } from '@inertiajs/vue3';
     import Pagination from '@/Components/Pagination.vue';
     import {formatDate} from '@/Utilities/date.js';
-    defineProps(['posts']);
+    import PageHeading from '@/Components/PageHeading.vue';
+    defineProps(['posts', 'selectedTopic']);
 
 </script>
 
 <template>
     <AppLayout title="Post List">
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Posts
-            </h2>
+            <Link :href="route('posts.index')" class="mb-4 inline-block text-sm hover:text-indigo-500 transition-colors">
+                <PrimaryButton>
+                    Back to all topics
+                </PrimaryButton>
+            </Link>
+            <PageHeading>
+                {{ selectedTopic ? selectedTopic.name : 'All Posts' }}
+                <p v-if="selectedTopic" class="text-gray-500 text-sm">
+                    {{ selectedTopic.description }}
+                </p>
+            </PageHeading>
         </template>
 
         <Container>

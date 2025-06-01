@@ -1,9 +1,9 @@
 <template>
     <AppLayout :title="post.title">
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            <PageHeading>
                 {{ post.title }}
-            </h2>
+            </PageHeading>
             <span class="text-gray-500 text-sm">{{ formatDate(post.created_at) }} by {{ post.user.name }}</span>
         </template>
 
@@ -66,7 +66,8 @@
     import SecondaryButton from '@/Components/SecondaryButton.vue';
     import InputLabel from '@/Components/InputLabel.vue';
     import { useConfirm } from '@/Utilities/Composables/useConfirm.js';
-import MarkdownEditor from '@/Components/MarkdownEditor.vue';
+    import MarkdownEditor from '@/Components/MarkdownEditor.vue';
+    import PageHeading from '@/Components/PageHeading.vue';
 
     const props = defineProps(['post', 'comments']);
     const commentForm = useForm({

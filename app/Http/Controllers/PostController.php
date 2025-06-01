@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Middleware\ResourceAuthorization;
 use App\Http\Resources\CommentResource;
 use App\Http\Resources\PostResource;
+use App\Http\Resources\TopicResource;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Topic;
@@ -31,12 +32,14 @@ class PostController extends Controller
     public function index(?Topic $topic = null)
     {
         $posts = Post::with(['user', 'topic'])
-            ->when($topic, fn ($query) => $query->where('topic_id', $topic->id))
+            ->when($topic, fn ($query) => $query->whereBelongsTo($topic))
+            ->latest()
             ->latest('id')
             ->paginate();
 
         return inertia('Posts/Index', [
             'posts' => PostResource::collection($posts),
+            'selectedTopic' => fn () => $topic ? TopicResource::make($topic) : null,
         ]);
     }
 

@@ -35,7 +35,7 @@ class IndexTest extends TestCase
 
         $posts->load(['user', 'topic']);
 
-        $response = $this->get(route('posts.index', ['topic' => $general->id]));
+        $response = $this->get(route('posts.index', ['topic' => $general]));
         $response->assertPaginatedResource('posts', PostResource::collection($posts->reverse()));
     }
 
@@ -44,6 +44,6 @@ class IndexTest extends TestCase
         $topic = Topic::factory()->create();
 
         $response = $this->get(route('posts.index', ['topic' => $topic]));
-        $response->assertSee($topic->name);
+        $response->assertHasResource('selectedTopic', TopicResource::make($topic));
     }
 }
