@@ -5,23 +5,27 @@
     import Pagination from '@/Components/Pagination.vue';
     import {formatDate} from '@/Utilities/date.js';
     import PageHeading from '@/Components/PageHeading.vue';
-    defineProps(['posts', 'selectedTopic']);
+    import Pill from '@/Components/Pill.vue';
+    defineProps(['posts', 'selectedTopic', 'topics']);
 
 </script>
 
 <template>
     <AppLayout title="Post List">
         <template #header>
-            <Link :href="route('posts.index')" class="mb-4 inline-block text-sm hover:text-indigo-500 transition-colors">
-                <PrimaryButton>
-                    Back to all topics
-                </PrimaryButton>
-            </Link>
             <PageHeading>
                 {{ selectedTopic ? selectedTopic.name : 'All Posts' }}
                 <p v-if="selectedTopic" class="text-gray-500 text-sm">
                     {{ selectedTopic.description }}
                 </p>
+                <menu class="flex flex-wrap mt-2 space-x-1">
+                    <Pill :href="route('posts.index')" :filled="!selectedTopic">All Posts</Pill>
+                    <li v-for="topic in topics" :key="topic.id">
+                        <Pill :href="route('posts.index', { topic: topic.slug })" :filled="selectedTopic && selectedTopic.id === topic.id">
+                            {{ topic.name }}
+                        </Pill>
+                    </li>
+                </menu>
             </PageHeading>
         </template>
 
@@ -33,20 +37,7 @@
                         <span class="font-semibold group-hover:text-indigo-500 transition-colors">{{ post.title }}</span>
                         <p class="text-gray-500 text-sm">{{ formatDate(post.created_at) }} by {{ post.user.name }}</p>
                     </Link>
-                    <Link 
-                        :href="route('posts.index', { topic: post.topic.slug })"
-                        class="rounded-full
-                        py-0.5
-                        px-2 
-                        text-gray-500 
-                        text-sm border 
-                        border-gray-300
-                        hover:bg-indigo-500 
-                        hover:text-white 
-                        transition-colors 
-                        mb-2 mt-2 md:mt-0">
-                        {{ post.topic.name }}
-                    </Link>
+                    <Pill :href="route('posts.index', { topic: post.topic.slug })">{{ post.topic.name }}</Pill>
                 </li>   
             </ul>
             <Pagination :meta="posts.meta" />

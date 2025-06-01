@@ -46,4 +46,11 @@ class IndexTest extends TestCase
         $response = $this->get(route('posts.index', ['topic' => $topic]));
         $response->assertHasResource('selectedTopic', TopicResource::make($topic));
     }
+
+    public function test_passes_topic_to_view(): void
+    {
+        $topic = Topic::factory(3)->create();
+        $response = $this->get(route('posts.index'));
+        $response->assertHasResource('topics', TopicResource::collection($topic));
+    }
 }
