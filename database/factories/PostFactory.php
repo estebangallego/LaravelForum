@@ -2,18 +2,17 @@
 
 namespace Database\Factories;
 
+use App\Models\Topic;
 use App\Models\User;
+use App\Support\PostFixtures;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Collection;
-use App\Support\PostFixtures;
-use App\Models\Topic;
+
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Post>
  */
 class PostFactory extends Factory
 {
-
-
     /**
      * Define the model's default state.
      *
@@ -33,5 +32,4 @@ class PostFactory extends Factory
     {
         return $this->sequence(...(new PostFixtures())->getFixtures());
     }
-
 }

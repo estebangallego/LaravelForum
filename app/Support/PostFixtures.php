@@ -8,8 +8,8 @@ use SplFileInfo;
 
 class PostFixtures
 {
-
     private static Collection $fixtures;
+
     public function getFixtures(): Collection
     {
         return self::$fixtures ??= collect(File::files(database_path('factories/fixtures/posts')))
@@ -20,5 +20,4 @@ class PostFixtures
                 'body' => str($parts[1])->trim(),
             ]);
     }
-
 }

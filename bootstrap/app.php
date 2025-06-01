@@ -22,8 +22,8 @@ $app = Application::configure(basePath: dirname(__DIR__))
         //
     })->create();
 
-    if (env('APP_ENV') === 'local') {
-        require __DIR__.'/../routes/local.php';
-    }
+if (env('APP_ENV') === 'local') {
+    require __DIR__.'/../routes/local.php';
+}
 
 return $app;

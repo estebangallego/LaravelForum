@@ -3,9 +3,9 @@
 namespace Tests\Feature;
 
 use App\Http\Resources\PostResource;
+use App\Http\Resources\TopicResource;
 use App\Models\Post;
 use App\Models\Topic;
-use App\Http\Resources\TopicResource;
 use Tests\TestCase;
 
 class IndexTest extends TestCase
