@@ -3,8 +3,8 @@
 namespace Tests\Feature\Controllers\PostController;
 
 use App\Models\Post;
-use App\Models\User;
 use App\Models\Topic;
+use App\Models\User;
 use Faker\Factory as Faker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -21,7 +21,7 @@ class StoreTest extends TestCase
     {
         parent::setUp();
         $this->user = User::factory()->create();
-        $this->validData = fn() => [
+        $this->validData = fn () => [
             'title' => Faker::create()->sentence(),
             'topic_id' => Topic::factory()->create()->getKey(),
             'body' => Faker::create()->paragraph(),

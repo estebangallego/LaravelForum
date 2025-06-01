@@ -65,7 +65,7 @@ class PostController extends Controller
             'body' => ['required', 'string', 'max:5000', 'min:10'],
             'topic_id' => ['required', 'exists:topics,id'],
         ]);
-        
+
         $post = Post::create([
             ...$validated,
             'user_id' => $request->user()->id,

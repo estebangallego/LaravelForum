@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Controllers\PostController;
 
-use App\Models\User;
-use App\Models\Topic;
 use App\Http\Resources\TopicResource;
+use App\Models\Topic;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
