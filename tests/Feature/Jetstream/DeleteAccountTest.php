@@ -17,7 +17,12 @@ class DeleteAccountTest extends TestCase
             $this->markTestSkipped('Account deletion is not enabled.');
         }
 
-        $this->actingAs($user = User::factory()->create());
+        /** @var \App\Models\User $user */
+        $user = User::factory()->create([
+            'password' => bcrypt('password'),
+        ]);
+
+        $this->actingAs($user);
 
         $this->delete('/user', [
             'password' => 'password',
@@ -32,7 +37,12 @@ class DeleteAccountTest extends TestCase
             $this->markTestSkipped('Account deletion is not enabled.');
         }
 
-        $this->actingAs($user = User::factory()->create());
+        /** @var \App\Models\User $user */
+        $user = User::factory()->create([
+            'password' => bcrypt('password'),
+        ]);
+
+        $this->actingAs($user);
 
         $this->delete('/user', [
             'password' => 'wrong-password',
