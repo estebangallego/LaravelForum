@@ -3,6 +3,8 @@
 namespace Tests\Feature\Controllers\PostController;
 
 use App\Models\User;
+use App\Models\Topic;
+use App\Http\Resources\TopicResource;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -32,5 +34,13 @@ class CreateTest extends TestCase
             ->get(route('posts.create'))
             ->assertComponent('Posts/Create');
 
+    }
+
+    public function test_passes_topics_to_the_view()
+    {
+        $topics = Topic::factory(2)->create();
+        $this->actingAs($this->user)
+            ->get(route('posts.create'))
+            ->assertHasResource('topics', TopicResource::collection($topics));
     }
 }

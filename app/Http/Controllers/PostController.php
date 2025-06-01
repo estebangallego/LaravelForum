@@ -50,7 +50,9 @@ class PostController extends Controller
     public function create()
     {
         // Gate::authorize('create', Post::class);
-        return inertia('Posts/Create');
+        return inertia('Posts/Create', [
+            'topics' => fn () => TopicResource::collection(Topic::all()),
+        ]);
     }
 
     /**
@@ -61,12 +63,12 @@ class PostController extends Controller
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255', 'min:5'],
             'body' => ['required', 'string', 'max:5000', 'min:10'],
+            'topic_id' => ['required', 'exists:topics,id'],
         ]);
-
+        
         $post = Post::create([
+            ...$validated,
             'user_id' => $request->user()->id,
-            'title' => $validated['title'],
-            'body' => $validated['body'],
         ]);
 
         return redirect($post->showRoute())->banner('Post created!');
@@ -81,7 +83,7 @@ class PostController extends Controller
             return redirect($post->showRoute($request->query()), status: 301);
         }
 
-        $post->load('user');
+        $post->load('user', 'topic');
 
         return inertia('Posts/Show', [
             'post' => fn () => PostResource::make($post),

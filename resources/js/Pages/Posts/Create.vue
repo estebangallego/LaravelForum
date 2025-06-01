@@ -13,6 +13,15 @@
                 <div>
                     <InputLabel for="title"> Title </InputLabel>
                     <TextInput id="title" v-model="form.title" class="mt-2 w-full" placeholder="Give it a title" />
+                    <div class="mt-2">
+                        <InputLabel for="topic_id"> Select Topic </InputLabel>
+                        <select id="topic_id" v-model="form.topic_id" class="mt-2 w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                            <option v-for="topic in topics" :key="topic.id" :value="topic.id">
+                                {{ topic.name }}
+                            </option>
+                        </select>
+                        <InputError :message="form.errors.topic_id" class="mt-2" />
+                    </div>
                     <MarkdownEditor v-model="form.body" class="mt-2" placeholder="Add a new post" editorClass="min-h-[512px] mt-2">
                         <template #toolbar = "{ editor, toolbar }">
                             <li>
@@ -48,9 +57,16 @@
     import { useForm } from '@inertiajs/vue3';
     import MarkdownEditor from '@/Components/MarkdownEditor.vue';
     import axios from 'axios';
+    const props = defineProps({
+        topics: {
+            type: Array,
+            required: true,
+        },
+    });
     const form = useForm({
         body: '',
-        title: ''
+        title: '',
+        topic_id: props.topics[0].id,
     });
 
     const createPost = () => form.post(route('posts.store'));
@@ -59,5 +75,4 @@
        form.title = response.data.title;
        form.body = response.data.body;
     }
-
 </script>

@@ -8,6 +8,7 @@
         </template>
 
         <Container>
+            <Pill :href="route('posts.index', { topic: post.topic.slug })">{{ post.topic.name }}</Pill>
             <article class="mt-4 prose prose-sm max-w-none" v-html="post.html">
                 
             </article>
@@ -68,6 +69,7 @@
     import { useConfirm } from '@/Utilities/Composables/useConfirm.js';
     import MarkdownEditor from '@/Components/MarkdownEditor.vue';
     import PageHeading from '@/Components/PageHeading.vue';
+    import Pill from '@/Components/Pill.vue';
 
     const props = defineProps(['post', 'comments']);
     const commentForm = useForm({
@@ -116,6 +118,4 @@
         });
     }
     
-    
-
 </script>

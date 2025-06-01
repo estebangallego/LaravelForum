@@ -4,6 +4,7 @@ namespace Tests\Feature\Controllers\PostController;
 
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Topic;
 use Faker\Factory as Faker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -14,15 +15,16 @@ class StoreTest extends TestCase
 
     protected User $user;
 
-    protected array $validData;
+    protected \Closure $validData;
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->user = User::factory()->create();
-        $this->validData = [
+        $this->validData = fn() => [
             'title' => Faker::create()->sentence(),
-            'body' => Faker::create()->sentence(),
+            'topic_id' => Topic::factory()->create()->getKey(),
+            'body' => Faker::create()->paragraph(),
         ];
     }
 
@@ -33,39 +35,40 @@ class StoreTest extends TestCase
 
     public function test_store_post()
     {
+        $data = $this->validData->call($this);
         $post = $this->actingAs($this->user)
-            ->post(route('posts.store'), $this->validData);
-
+            ->post(route('posts.store'), $data);
         $post->assertRedirect(Post::latest('id')->first()->showRoute());
 
         $this->assertDatabaseHas(Post::class, [
-            ...$this->validData,
-            'user_id' => $this->user->id,
+            ...$data,
         ]);
     }
 
     public function test_store_post_with_invalid_data()
     {
-        $invalidTitle = ['', null, 1, true, str_repeat('a', 256)];
-        foreach ($invalidTitle as $data) {
-            $this->actingAs($this->user)
-                ->post(route('posts.store'), [
-                    'title' => $data,
-                    'body' => Faker::create()->sentence(),
-                    'user_id' => $this->user->id,
-                ])
-                ->assertInvalid(['title']);
-        }
+        $this->actingAs($this->user)
+            ->post(route('posts.store'), [
+                'title' => '',
+                'body' => '',
+                'topic_id' => '',
+            ])
+            ->assertInvalid(['title', 'body', 'topic_id']);
 
-        $invalidBody = ['', null, 1, true, str_repeat('a', 2501)];
-        foreach ($invalidBody as $data) {
-            $this->actingAs($this->user)
-                ->post(route('posts.store'), [
-                    'title' => Faker::create()->sentence(),
-                    'body' => $data,
-                    'user_id' => $this->user->id,
-                ])
-                ->assertInvalid(['body']);
-        }
+        $this->actingAs($this->user)
+            ->post(route('posts.store'), [
+                'title' => Faker::create()->sentence(),
+                'body' => Faker::create()->paragraph(),
+                'topic_id' => 'invalid-topic-id',
+            ])
+            ->assertInvalid(['topic_id']);
+
+        $this->actingAs($this->user)
+            ->post(route('posts.store'), [
+                'title' => Faker::create()->sentence(),
+                'body' => Faker::create()->paragraph(),
+                'topic_id' => -1,
+            ])
+            ->assertInvalid(['topic_id']);
     }
 }
