@@ -1,7 +1,6 @@
 <?php
 
 use App\Support\PostFixtures;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/post-content', function () {
