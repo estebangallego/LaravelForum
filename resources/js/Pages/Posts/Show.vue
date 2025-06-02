@@ -1,4 +1,8 @@
 <template>
+    <Head>
+        <link rel="canonical" :href="post.routes.show" />
+    </Head>
+
     <AppLayout :title="post.title">
         <template #header>
             <PageHeading>
@@ -61,7 +65,7 @@
     import Pagination from '@/Components/Pagination.vue';
     import {formatDate} from '@/Utilities/date.js';
     import Comment from '@/Components/Comment.vue';
-    import { useForm, router} from '@inertiajs/vue3';
+    import { useForm, router, Head} from '@inertiajs/vue3';
     import PrimaryButton from '@/Components/PrimaryButton.vue';
     import InputError from '@/Components/InputError.vue';
     import SecondaryButton from '@/Components/SecondaryButton.vue';
