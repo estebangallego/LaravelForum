@@ -113,7 +113,12 @@
 
     const deleteComment = async (commentId) => {
         if (! await confirmation('Are you sure you want to delete this comment?')) return;
-        router.delete(route('comments.destroy', {comment:commentId, page: props.comments.meta.current_page}), {
+        router.delete(route('comments.destroy', {
+            comment:commentId, 
+            page: props.comments.data.length > 1 
+            ? props.comments.meta.current_page
+            : Math.max(props.comments.meta.current_page - 1, 1)
+        }), {
             preserveScroll: true,
         });
     }
