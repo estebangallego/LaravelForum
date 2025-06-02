@@ -7,7 +7,6 @@ use App\Http\Resources\PostResource;
 use App\Models\Comment;
 use App\Models\Post;
 use Tests\TestCase;
-use Illuminate\Support\Str;
 
 class ShowTest extends TestCase
 {
