@@ -10,6 +10,20 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 
+/**
+ * @property int $id
+ * @property string $name
+ * @property string $email
+ * @property string $password
+ * @property \Carbon\Carbon|null $email_verified_at
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property string|null $profile_photo_path
+ * @property string $profile_photo_url
+ * @method static User create(array $attributes = [])
+ * @method static User|null find($id)
+ * @method static User findOrFail($id)
+ */
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory;
