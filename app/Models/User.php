@@ -20,6 +20,7 @@ use Laravel\Jetstream\HasProfilePhoto;
  * @property \Carbon\Carbon $updated_at
  * @property string|null $profile_photo_path
  * @property string $profile_photo_url
+ *
  * @method static User create(array $attributes = [])
  * @method static User|null find($id)
  * @method static User findOrFail($id)

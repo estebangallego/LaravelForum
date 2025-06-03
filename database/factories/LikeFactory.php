@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\Models\Post;
 use App\Models\User;
-use App\Models\Comment;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -26,7 +25,7 @@ class LikeFactory extends Factory
         ];
     }
 
-    public function likeableType (array $values)
+    public function likeableType(array $values)
     {
         $type = $values['likeable_id'];
         $modelName = $type instanceof Factory

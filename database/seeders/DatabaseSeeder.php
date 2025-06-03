@@ -3,11 +3,11 @@
 namespace Database\Seeders;
 
 use App\Models\Comment;
+use App\Models\Like;
 use App\Models\Post;
 use App\Models\Topic;
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use App\Models\Like;
 
 class DatabaseSeeder extends Seeder
 {

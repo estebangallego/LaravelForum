@@ -2,12 +2,12 @@
 
 namespace App\Providers;
 
+use App\Models\Comment;
+use App\Models\Post;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Database\Eloquent\Relations\Relation;
-use App\Models\Post;
-use App\Models\Comment;
 
 class AppServiceProvider extends ServiceProvider
 {
