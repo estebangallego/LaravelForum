@@ -7,6 +7,7 @@ use App\Models\Post;
 use App\Models\Topic;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use App\Models\Like;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,10 +23,9 @@ class DatabaseSeeder extends Seeder
         $topics = Topic::all();
 
         $users = User::factory(10)->create();
-        $post = Post::factory(1)
+        $posts = Post::factory(200)
             ->withFixture()
-            ->has(Comment::factory(15)
-                ->recycle($users))
+            ->has(Comment::factory(15)->recycle($users))
             ->recycle([$users, $topics])
             ->create();
 
@@ -33,7 +33,10 @@ class DatabaseSeeder extends Seeder
         if (! User::where('email', 'test@example.com')->exists()) {
             User::factory()
                 ->has(Post::factory(45)->recycle($topics)->withFixture())
-                ->has(Comment::factory(20)->recycle($post))
+                ->has(Comment::factory(20)->recycle($posts))
+                ->has(Like::factory()->forEachSequence(
+                    ...$posts->random(100)->map(fn (Post $post) => ['likeable_id' => $post])
+                ))
                 ->create([
                     'name' => 'Esteban',
                     'email' => 'test@test.com',
