@@ -8,7 +8,11 @@
             <PageHeading>
                 {{ post.title }}
             </PageHeading>
+            
             <span class="text-gray-500 text-sm">{{ formatDate(post.created_at) }} by {{ post.user.name }}</span>
+            <div class="flex items-center gap-2">
+                <span class="text-gray-500 text-sm font-medium text-nowrap">{{ post.likes_count }} likes</span>
+            </div>
         </template>
 
         <Container>

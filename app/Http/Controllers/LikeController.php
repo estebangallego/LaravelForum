@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Like;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 class LikeController extends Controller
 {
@@ -26,9 +27,16 @@ class LikeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, string $type, int $id)
     {
-        //
+        $likeable = Relation::getMorphedModel($type)::findOrFail($id);
+        $likeable->likes()->create([
+            'user_id' => $request->user()->id,
+        ]);
+
+        $likeable->increment('likes_count');
+
+        return back();       
     }
 
     /**
