@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\Like;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 
 class LikePolicy
 {
@@ -26,9 +27,14 @@ class LikePolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(User $user, Model $likeable): bool
     {
-        return true;
+        if (!in_array($likeable->getMorphClass(), ['post', 'comment'])) {
+            return false;
+        }
+
+        // Check if the user has already liked the likeable
+        return $likeable->likes()->whereBelongsTo($user)->doesntExist();
     }
 
     /**
